@@ -1,8 +1,8 @@
 services:
   jarvis:
     build: .
-    ports:
-      - "8888:8888"
+    expose:
+      - "8888"
     environment:
       - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
     restart: unless-stopped
