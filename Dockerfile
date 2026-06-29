@@ -1,11 +1,17 @@
+# syntax=docker/dockerfile:1
 FROM node:20-alpine
 WORKDIR /app
 
 COPY package.json ./
-RUN npm install
+
+# Cache mount: os pacotes ficam em cache entre deploys — só re-instala o que mudou
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --prefer-offline
 
 COPY . .
-RUN npm run build
+
+RUN --mount=type=cache,target=/root/.npm \
+    npm run build
 
 EXPOSE 8888
 
