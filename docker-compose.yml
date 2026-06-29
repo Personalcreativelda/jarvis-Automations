@@ -2,7 +2,7 @@ services:
   jarvis:
     build: .
     expose:
-      - "8888"
+      - "3000"
     environment:
       - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
     restart: unless-stopped

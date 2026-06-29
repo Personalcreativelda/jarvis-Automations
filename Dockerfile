@@ -12,8 +12,8 @@ RUN npm run build
 # 'serve' é um servidor HTTP estático simples — sem Wrangler, sem wrangler preview
 RUN npm install -g serve
 
-EXPOSE 8888
+EXPOSE 3000
 
 # -s  → modo SPA: todas as rotas desconhecidas redirecionam para index.html
 # -l  → porta de escuta
-CMD ["serve", "-s", "dist/client", "-l", "8888"]
+CMD ["serve", "-s", "dist/client", "-l", "3000"]
