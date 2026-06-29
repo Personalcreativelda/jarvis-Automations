@@ -39,6 +39,9 @@ export default defineConfig({
     define: Object.fromEntries(
       Object.entries(devVars).map(([k, v]) => [`process.env.${k}`, JSON.stringify(v)])
     ),
+    preview: {
+      allowedHosts: "all",
+    },
     server: {
       proxy: {
         "/jarvis-agent": {
