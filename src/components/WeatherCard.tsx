@@ -65,10 +65,22 @@ export function WeatherCard() {
     setLoading(true);
     setError("");
     try {
-      const pos = await new Promise<GeolocationPosition>((res, rej) =>
-        navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000 })
-      );
-      const { latitude: lat, longitude: lon } = pos.coords;
+      // Tenta GPS do browser; em HTTP (sem HTTPS) cai para geolocalização por IP
+      let lat: number, lon: number;
+      try {
+        const pos = await new Promise<GeolocationPosition>((res, rej) =>
+          navigator.geolocation.getCurrentPosition(res, rej, { timeout: 6000 })
+        );
+        lat = pos.coords.latitude;
+        lon = pos.coords.longitude;
+      } catch {
+        // Fallback: IP geolocation — funciona sem HTTPS
+        const ipRes = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(6000) });
+        const ipData = await ipRes.json();
+        if (!ipData.latitude) throw new Error("IP geolocation falhou");
+        lat = ipData.latitude;
+        lon = ipData.longitude;
+      }
 
       // Reverse geocoding — falha silenciosamente se Nominatim estiver indisponível
       let city = "Localização";

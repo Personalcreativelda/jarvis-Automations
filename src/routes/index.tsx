@@ -716,7 +716,8 @@ export function Jarvis() {
         </div>
       )}
       <div className="pointer-events-none absolute inset-4 border border-jarvis/30 rounded-lg" />
-      <div className="pointer-events-none absolute top-4 left-4 right-4 flex justify-between text-[10px] uppercase tracking-[0.3em] text-jarvis/70 px-4 py-2">
+      {/* Decoração topo — oculta em mobile para não colidir com header */}
+      <div className="hidden md:flex pointer-events-none absolute top-4 left-4 right-4 justify-between text-[10px] uppercase tracking-[0.3em] text-jarvis/70 px-4 py-2">
         <span>// J.A.R.V.I.S v2.6 — Stark Industries</span>
         <span suppressHydrationWarning>{clock}</span>
       </div>
@@ -753,43 +754,42 @@ export function Jarvis() {
         </div>
       )}
 
-      <header className="relative z-10 flex items-center justify-between px-8 py-6">
-        <h1 className="text-xl tracking-[0.5em] text-jarvis text-glow">J · A · R · V · I · S</h1>
-        <div className="flex items-center gap-3">
-        <button
-          onClick={() => setShowSettings((s) => !s)}
-          className="text-jarvis/70 hover:text-jarvis transition"
-          aria-label="Settings"
-        >
-          <Settings className="h-5 w-5" />
-        </button>
-        <button
-          onClick={() => setFullscreen(true)}
-          className="text-jarvis/70 hover:text-jarvis transition"
-          aria-label="Fullscreen"
-          title="Modo fullscreen"
-        >
-          <Maximize2 className="h-5 w-5" />
-        </button>
+      <header className="relative z-10 flex items-center justify-between px-4 sm:px-8 py-3 sm:py-5">
+        <div className="flex flex-col">
+          <h1 className="text-base sm:text-xl tracking-[0.25em] sm:tracking-[0.5em] text-jarvis text-glow leading-none">J·A·R·V·I·S</h1>
+          <span suppressHydrationWarning className="md:hidden text-[8px] text-jarvis/40 tracking-widest mt-0.5">{clock}</span>
         </div>
-        {/* Botão wake word */}
-        <button
-          onClick={() => (wakeState === "off" ? startWakeWord() : stopWakeWord())}
-          title={wakeState === "off" ? "Ativar escuta wake word" : "Desativar escuta wake word"}
-          className={`transition ${
-            wakeState !== "off" ? "text-jarvis" : "text-jarvis/40 hover:text-jarvis/70"
-          }`}
-          aria-label="Wake word"
-        >
-          {wakeState !== "off" ? (
-            <RadioTower className="h-5 w-5 animate-pulse" />
-          ) : (
-            <Radio className="h-5 w-5" />
-          )}
-        </button>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            onClick={() => setShowSettings((s) => !s)}
+            className="text-jarvis/70 hover:text-jarvis transition"
+            aria-label="Settings"
+          >
+            <Settings className="h-4 w-4 sm:h-5 sm:w-5" />
+          </button>
+          <button
+            onClick={() => setFullscreen(true)}
+            className="text-jarvis/70 hover:text-jarvis transition"
+            aria-label="Fullscreen"
+          >
+            <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" />
+          </button>
+          <button
+            onClick={() => (wakeState === "off" ? startWakeWord() : stopWakeWord())}
+            title={wakeState === "off" ? "Ativar wake word" : "Desativar wake word"}
+            className={`transition ${wakeState !== "off" ? "text-jarvis" : "text-jarvis/40 hover:text-jarvis/70"}`}
+            aria-label="Wake word"
+          >
+            {wakeState !== "off" ? (
+              <RadioTower className="h-4 w-4 sm:h-5 sm:w-5 animate-pulse" />
+            ) : (
+              <Radio className="h-4 w-4 sm:h-5 sm:w-5" />
+            )}
+          </button>
+        </div>
       </header>
 
-      <div className="relative z-10 flex gap-4 px-4 pb-4" style={{height: "calc(100vh - 80px)"}}>
+      <div className="relative z-10 flex gap-4 px-2 sm:px-4 pb-4" style={{height: "calc(100vh - 60px)"}}>
         <aside className="hidden lg:flex flex-col w-80 shrink-0 pt-2 gap-3 overflow-y-auto jarvis-scroll">
           <WeatherCard />
           <SystemMonitor />
