@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { JarvisOrb, type JarvisState } from "@/components/JarvisOrb";
 import { Button } from "@/components/ui/button";
@@ -12,20 +11,10 @@ import { CommandLog, type LogEntry } from "@/components/CommandLog";
 import { WeatherCard } from "@/components/WeatherCard";
 import { useWakeWord } from "@/hooks/use-wake-word";
 
-export const Route = createFileRoute("/")({
-  component: Jarvis,
-  head: () => ({
-    meta: [
-      { title: "J.A.R.V.I.S — Voice Interface" },
-      { name: "description", content: "Interface de voz futurista que executa workflows n8n." },
-    ],
-  }),
-});
-
 type Msg = { role: "user" | "jarvis"; text: string; ts: number };
 type Engine = "browser" | "elevenlabs";
 
-function Jarvis() {
+export function Jarvis() {
   const [state, setState] = useState<JarvisState>("idle");
   const [transcript, setTranscript] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);

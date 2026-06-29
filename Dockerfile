@@ -9,6 +9,9 @@ RUN --mount=type=cache,target=/root/.npm \
 COPY . .
 RUN npm run build
 
+RUN npm install -g serve
+
 EXPOSE 3000
 
-CMD ["sh", "-c", "[ -n \"$ELEVENLABS_API_KEY\" ] && echo \"ELEVENLABS_API_KEY=$ELEVENLABS_API_KEY\" > .dev.vars; npx vite preview --port 3000 --host 0.0.0.0"]
+# Vite SPA puro — serve ficheiros estáticos de dist/
+CMD ["serve", "-s", "dist", "-l", "3000"]
