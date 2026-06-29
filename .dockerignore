@@ -1,0 +1,19 @@
+node_modules
+dist
+.git
+.gitignore
+
+# Segredos locais — em produção usa variáveis de ambiente do Coolify
+.dev.vars
+
+# Logs e temporários
+*.log
+npm-debug.log*
+
+# Ficheiros de desenvolvimento
+.vscode
+.idea
+*.local
+
+# Lockfile do bun (não usado no Docker — usamos npm install)
+bun.lock

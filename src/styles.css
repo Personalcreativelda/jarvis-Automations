@@ -1,0 +1,134 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-jarvis: var(--jarvis);
+  --color-jarvis-glow: var(--jarvis-glow);
+  --color-jarvis-deep: var(--jarvis-deep);
+
+  --font-display: "Orbitron", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --shadow-glow: 0 0 40px color-mix(in oklab, var(--jarvis) 60%, transparent);
+  --shadow-glow-lg: 0 0 80px color-mix(in oklab, var(--jarvis) 70%, transparent);
+}
+
+:root, .dark {
+  --radius: 0.75rem;
+  --background: oklch(0.14 0.04 240);
+  --foreground: oklch(0.95 0.03 220);
+  --card: oklch(0.18 0.05 240 / 0.6);
+  --card-foreground: oklch(0.95 0.03 220);
+  --popover: oklch(0.18 0.05 240);
+  --popover-foreground: oklch(0.95 0.03 220);
+  --primary: oklch(0.78 0.18 220);
+  --primary-foreground: oklch(0.12 0.04 240);
+  --secondary: oklch(0.24 0.05 240);
+  --secondary-foreground: oklch(0.95 0.03 220);
+  --muted: oklch(0.22 0.04 240);
+  --muted-foreground: oklch(0.65 0.05 220);
+  --accent: oklch(0.65 0.22 35);
+  --accent-foreground: oklch(0.12 0.04 240);
+  --destructive: oklch(0.62 0.24 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.78 0.18 220 / 0.2);
+  --input: oklch(0.22 0.05 240);
+  --ring: oklch(0.78 0.18 220);
+
+  --jarvis: oklch(0.78 0.18 220);
+  --jarvis-glow: oklch(0.85 0.2 210);
+  --jarvis-deep: oklch(0.45 0.18 240);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background: radial-gradient(ellipse at top, oklch(0.2 0.06 240) 0%, var(--color-background) 60%);
+    color: var(--color-foreground);
+    min-height: 100vh;
+    font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  .text-glow { text-shadow: 0 0 20px color-mix(in oklab, var(--jarvis) 80%, transparent); }
+  .grid-bg {
+    background-image:
+      linear-gradient(color-mix(in oklab, var(--jarvis) 8%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklab, var(--jarvis) 8%, transparent) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes spin-reverse { to { transform: rotate(-360deg); } }
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+@keyframes scanline {
+  0% { top: -2px; }
+  100% { top: 100%; }
+}
+
+.animate-pulse-ring { animation: pulse-ring 2s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 12s linear infinite; }
+.animate-spin-reverse { animation: spin-reverse 18s linear infinite; }
+.animate-scan { animation: scan 3s linear infinite; }
+
+/* JARVIS-themed scrollbars */
+.jarvis-scroll::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.jarvis-scroll::-webkit-scrollbar-track {
+  background: oklch(0.14 0.04 240 / 0.4);
+  border-radius: 2px;
+}
+.jarvis-scroll::-webkit-scrollbar-thumb {
+  background: var(--jarvis);
+  border-radius: 2px;
+  box-shadow: 0 0 6px color-mix(in oklab, var(--jarvis) 70%, transparent);
+}
+.jarvis-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--jarvis-glow);
+}
+/* Global page scrollbar */
+html::-webkit-scrollbar { width: 6px; }
+html::-webkit-scrollbar-track { background: oklch(0.14 0.04 240); }
+html::-webkit-scrollbar-thumb {
+  background: var(--jarvis);
+  border-radius: 3px;
+  box-shadow: 0 0 8px color-mix(in oklab, var(--jarvis) 60%, transparent);
+}
+html::-webkit-scrollbar-thumb:hover { background: var(--jarvis-glow); }
