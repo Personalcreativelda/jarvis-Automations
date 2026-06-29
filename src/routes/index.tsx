@@ -49,9 +49,9 @@ export function Jarvis() {
 
   // Enumerate microphone devices (requests permission on first use)
   useEffect(() => {
+    if (!navigator.mediaDevices) return; // undefined em HTTP — requer HTTPS
     const loadDevices = async () => {
       try {
-        // Request permission so device labels are populated
         const tempStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         tempStream.getTracks().forEach((t) => t.stop());
       } catch {}
@@ -84,6 +84,7 @@ export function Jarvis() {
       setAudioLevel(0);
       return;
     }
+    if (!navigator.mediaDevices) return; // undefined em HTTP
     let ctx: AudioContext | null = null;
     let stream: MediaStream | null = null;
     let running = true;
