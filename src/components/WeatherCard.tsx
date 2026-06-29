@@ -70,18 +70,21 @@ export function WeatherCard() {
       );
       const { latitude: lat, longitude: lon } = pos.coords;
 
-      // Reverse geocoding — Open-Meteo não tem, usar nominatim
-      const geoRes = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
-        { headers: { "Accept-Language": "pt" } }
-      );
-      const geoJson = await geoRes.json();
-      const city =
-        geoJson?.address?.city ||
-        geoJson?.address?.town ||
-        geoJson?.address?.village ||
-        geoJson?.address?.county ||
-        "Localização";
+      // Reverse geocoding — falha silenciosamente se Nominatim estiver indisponível
+      let city = "Localização";
+      try {
+        const geoRes = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
+          { headers: { "Accept-Language": "pt" }, signal: AbortSignal.timeout(5000) }
+        );
+        const geoJson = await geoRes.json();
+        city =
+          geoJson?.address?.city ||
+          geoJson?.address?.town ||
+          geoJson?.address?.village ||
+          geoJson?.address?.county ||
+          "Localização";
+      } catch {}
 
       // Clima — Open-Meteo (gratuito, sem chave)
       const wx = await fetch(

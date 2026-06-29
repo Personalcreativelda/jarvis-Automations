@@ -65,11 +65,21 @@ export async function speakBrowser(text: string, lang = "pt-PT"): Promise<void> 
 }
 
 export async function speakElevenLabs(text: string, voiceId: string): Promise<void> {
-  const res = await fetch("/api/tts", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, voiceId }),
-  });
+  const apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY as string | undefined;
+  if (!apiKey) throw new Error("VITE_ELEVENLABS_API_KEY não definida");
+
+  const res = await fetch(
+    `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream?output_format=mp3_44100_128&optimize_streaming_latency=4`,
+    {
+      method: "POST",
+      headers: { "xi-api-key": apiKey, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text,
+        model_id: "eleven_turbo_v2_5",
+        voice_settings: { stability: 0.45, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true, speed: 1.0 },
+      }),
+    }
+  );
   if (!res.ok) {
     const msg = await res.text().catch(() => "");
     throw new Error(`TTS ${res.status}: ${msg}`);
