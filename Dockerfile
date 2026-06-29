@@ -9,11 +9,6 @@ RUN --mount=type=cache,target=/root/.npm \
 COPY . .
 RUN npm run build
 
-# 'serve' é um servidor HTTP estático simples — sem Wrangler, sem wrangler preview
-RUN npm install -g serve
-
 EXPOSE 3000
 
-# -s  → modo SPA: todas as rotas desconhecidas redirecionam para index.html
-# -l  → porta de escuta
-CMD ["serve", "-s", "dist/client", "-l", "3000"]
+CMD ["sh", "-c", "[ -n \"$ELEVENLABS_API_KEY\" ] && echo \"ELEVENLABS_API_KEY=$ELEVENLABS_API_KEY\" > .dev.vars; npx vite preview --port 3000 --host 0.0.0.0"]
